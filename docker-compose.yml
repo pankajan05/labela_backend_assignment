@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:13 # You can specify the PostgreSQL version you want to use
+    container_name: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data # You can specify the path to store the data on your machine
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: autocompany # Replace "mydb" with your desired database name
+      POSTGRES_USER: root # Replace "myuser" with your desired database username
+      POSTGRES_PASSWORD: 1234 # Replace "mypassword" with your desired database password
+
+  pg-admin:
+    image: dpage/pgadmin4:7.6
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pankajan05@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+      - PGADMIN_LISTEN_PORT=5050
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
+    depends_on:
+      - db
+
+  web:
+    container_name: autocompany
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
