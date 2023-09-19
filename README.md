@@ -49,9 +49,20 @@ How to score bonus points (ergo: we really advise you to tackle it this way):
 If you have any questions, feel free to contact us! Any feedback on this exercise is always welcome!
 
 
-**Want to run the project in Docker?**
+**Want to setup the project in Docker Compose?**
 
-- ```docker build -t autocompany .```
-- ``` docker run -p 80:80 -d autocompany```
+- ```docker-compose run web python manage.py makemigrations```
+- ```docker-compose run web python manage.py migrate```
+- ```docker-compose up```
 - Navigate to ```http://127.0.0.1/```
+
+**Want to test the project in Docker?**
+
+- ```docker-compose run web python manage.py test labela.tests```
+
+
+**API Documentation**
+We use the built-in Django REST framework for API testing.
+- Navigate to ```http://127.0.0.1/api```
+
 
